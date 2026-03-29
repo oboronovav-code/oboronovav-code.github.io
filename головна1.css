@@ -355,3 +355,47 @@ body {
             .map-page-wrapper { flex-direction: column; }
             .map-sidebar { width: 100%; box-sizing: border-box; }
         }*/
+
+/* Стилі для спадного списку */
+.dropdown-container {
+    position: relative;
+    width: 100%;
+}
+
+.priority-dropdown-content {
+    display: none; /* Сховано за замовчуванням */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Клас для показу списку */
+.priority-dropdown-content.show {
+    display: block;
+}
+
+.priority-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.priority-item:hover {
+    background-color: #f9f9f9;
+}
+
+.priority-item.critical { border-left: 4px solid #e74c3c; } /* Червона смужка для Full */
+.priority-item.problem { border-left: 4px solid #D3D3D3; }  /* Сіра для Error */
+
+.no-priority {
+    padding: 10px;
+    color: #888;
+    font-style: italic;
+    text-align: center;
+}
