@@ -115,12 +115,10 @@
                     }
         
                     element.className = 'dot ' + statusClass;
+                    element.onclick = (event) => showPopup(event, bin.id);
                 }
             });
-        
-            if (!hasPriority) {
-                listContainer.innerHTML = '<div class="dropdown-item">✅ Усі в нормі</div>';
-            }
+
         }
         
         // Функція створення елемента списку
@@ -141,6 +139,34 @@
             };
             
             container.appendChild(item);
+        }
+        function showPopup(event, binId) {
+            const popup = document.getElementById('info-popup');
+            const binData = trashBinsData.find(b => b.id === binId);
+            const element = document.getElementById(binId);
+            const title = element.getAttribute('title');
+        
+            if (!binData) return;
+        
+            // Заповнюємо дані
+            document.getElementById('popup-title').innerText = title;
+            document.getElementById('popup-fill').innerText = `Заповненість: ${binData.fillLevel === 'none' ? '—' : binData.fillLevel + '%'}`;
+            
+            let statusText = "Норма";
+            if (binData.fillLevel === 'none') statusText = "Помилка датчика";
+            else if (binData.fillLevel > 80) statusText = "Критично (Повний)";
+            else if (binData.fillLevel > 40) statusText = "Середній рівень";
+            
+            document.getElementById('popup-status').innerText = `Статус: ${statusText}`;
+        
+            // Позиціонуємо вікно поруч із курсором або точкою
+            popup.style.display = 'block';
+            popup.style.left = (event.pageX - 100) + 'px'; // Центруємо відносно кліку
+            popup.style.top = (event.pageY - 160) + 'px'; // Трохи вище точки
+        }
+        
+        function closePopup() {
+            document.getElementById('info-popup').style.display = 'none';
         }
         
         window.onload = refreshMap;
