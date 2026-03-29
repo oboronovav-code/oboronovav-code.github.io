@@ -69,9 +69,7 @@ function addListItem(id, icon, text) {
     item.onclick = () => {
         const dot = document.getElementById(id);
         if (dot) {
-            dot.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // Можна додати закриття списку після вибору:
-            // toggleDropdown(); 
+            dot.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
         }
     };
     
@@ -100,7 +98,7 @@ function showPopup(event, binId) {
 
     popup.style.display = 'block';
 
-    // Базове позиціонування по горизонталі (по центру точки)
+    // Базове позиціонування по горизонталі
     popup.style.left = element.offsetLeft - 90 + 'px'; 
 
     // Логіка для позиціонування по вертикалі
@@ -119,4 +117,18 @@ function closePopup() {
     document.getElementById('info-popup').style.display = 'none';
 }
 
-window.onload = refreshMap;
+function applyPermissions() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const reportBtn = document.getElementById('report-btn');
+
+    if (isLoggedIn === 'true') {
+        if (reportBtn) reportBtn.style.display = 'block'; // Показуємо кнопку
+    } else {
+        if (reportBtn) reportBtn.style.display = 'none';  // Ховаємо кнопку
+    }
+}
+
+window.onload = function() {
+    refreshMap();       // функція малювання точок
+    applyPermissions();  // Перевірка прав доступу
+};
