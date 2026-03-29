@@ -320,6 +320,7 @@ body {
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            user-select: none;
         }
 
         .map-relative-container img {
@@ -337,7 +338,7 @@ body {
             border: 2px solid white;
             box-shadow: 0 0 8px rgba(0,0,0,0.4);
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.5s;
+            transition: none;
             z-index: 5;
         }
 
@@ -356,46 +357,28 @@ body {
             .map-sidebar { width: 100%; box-sizing: border-box; }
         }*/
 
-/* Стилі для спадного списку */
-.dropdown-container {
-    position: relative;
+/* Стилізація спадного списку в сайдбарі */
+select.side-btn {
+    appearance: none; /* Прибираємо стандартний вигляд системного селектора */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Додаємо власну стрілочку праворуч */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235d4037' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 35px; /* Місце для стрілочки */
+    
     width: 100%;
-}
-
-.priority-dropdown-content {
-    display: none; /* Сховано за замовчуванням */
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 5px;
-    max-height: 300px;
-    overflow-y: auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Клас для показу списку */
-.priority-dropdown-content.show {
-    display: block;
-}
-
-.priority-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
-    font-size: 13px;
     cursor: pointer;
-    transition: background 0.2s;
+    outline: none;
+    font-family: inherit;
 }
 
-.priority-item:hover {
-    background-color: #f9f9f9;
-}
-
-.priority-item.critical { border-left: 4px solid #e74c3c; } /* Червона смужка для Full */
-.priority-item.problem { border-left: 4px solid #D3D3D3; }  /* Сіра для Error */
-
-.no-priority {
+/* Стилізація варіантів (option) всередині списку */
+select.side-btn option {
+    background-color: #fff;
+    color: #333;
     padding: 10px;
-    color: #888;
-    font-style: italic;
-    text-align: center;
+    font-size: 14px;
 }
