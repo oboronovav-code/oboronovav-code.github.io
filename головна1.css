@@ -419,3 +419,39 @@ body {
 .dropdown-item:last-child {
     border-bottom: none;
 }
+/* Стилі випливаючого вікна */
+.info-popup {
+    display: none; /* Сховано за замовчуванням */
+    position: absolute;
+    z-index: 1001;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 200px;
+    pointer-events: auto;
+}
+
+.popup-content h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #5d4037;
+}
+
+.popup-content p {
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+.close-popup {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+}
+
+.close-popup:hover {
+    color: #000;
+}
