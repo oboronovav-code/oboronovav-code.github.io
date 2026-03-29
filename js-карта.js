@@ -104,11 +104,12 @@ function showPopup(event, binId) {
     popup.style.left = element.offsetLeft - 90 + 'px'; 
 
     // Логіка для позиціонування по вертикалі
-    if (binId === 'bin-16' || binId === 'bin-17') {
+    if (bin.id === 'bin-16' || bin.id === 'bin-17') {
         // Для 16 та 17 станцій з'являється ПІД маркером
         // Додаємо висоту самого маркера (16px) + невеликий відступ
         popup.style.top = element.offsetTop + 25 + 'px'; 
-    } else {
+    } 
+    else {
         // Для всіх інших — НАД маркером (як було раніше)
         popup.style.top = element.offsetTop - 180 + 'px'; 
     }
