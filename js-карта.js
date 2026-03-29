@@ -87,7 +87,7 @@ function showPopup(event, binId) {
 
     if (!binData) return;
 
-    // Заповнюємо дані
+    // Заповнюємо дані у вікні
     document.getElementById('popup-title').innerText = title;
     document.getElementById('popup-fill').innerText = `Заповненість: ${binData.fillLevel === 'none' ? '—' : binData.fillLevel + '%'}`;
     
@@ -98,10 +98,20 @@ function showPopup(event, binId) {
     
     document.getElementById('popup-status').innerText = `Статус: ${statusText}`;
 
-    // Позиціонуємо вікно поруч із курсором або точкою
     popup.style.display = 'block';
-    popup.style.left = (event.pageX - 100) + 'px'; // Центруємо відносно кліку
-    popup.style.top = (event.pageY - 160) + 'px'; // Трохи вище точки
+
+    // Базове позиціонування по горизонталі (по центру точки)
+    popup.style.left = element.offsetLeft - 90 + 'px'; 
+
+    // Логіка для позиціонування по вертикалі
+    if (binId === 'bin-16' || binId === 'bin-17') {
+        // Для 16 та 17 станцій з'являється ПІД маркером
+        // Додаємо висоту самого маркера (16px) + невеликий відступ
+        popup.style.top = element.offsetTop + 25 + 'px'; 
+    } else {
+        // Для всіх інших — НАД маркером (як було раніше)
+        popup.style.top = element.offsetTop - 180 + 'px'; 
+    }
 }
         
 function closePopup() {
