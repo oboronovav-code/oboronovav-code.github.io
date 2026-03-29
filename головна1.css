@@ -48,7 +48,7 @@ body {
 /* Головний екран (Hero) */
 #hero {
     height: 450px;
-    background: url('C:/Users/oboro/Desktop/школа ПЛ-12/проект/зображення/заставка.jpg') center/cover no-repeat; /* Замініть на ваше фото карти */
+    background: url('заставка.jpg') center/cover no-repeat; /* Замініть на ваше фото карти */
     display: flex;
     justify-content: center;
     align-items: center;
