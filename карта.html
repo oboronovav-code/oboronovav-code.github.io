@@ -21,10 +21,11 @@
 
     <div class="map-page-wrapper">
         <aside class="map-sidebar">
-            <select id="priority-select" class="side-btn" onchange="focusOnBin(this.value)">
-                <option value="" disabled selected>Пріоритетні точки</option>
-                <option value="all">Усі точки в нормі</option>
-            </select>
+            <div class="priority-wrapper">
+                <select id="priority-select" class="side-btn" onchange="focusOnBin(this.value)">
+                    <option value="" disabled selected>Пріоритетні точки</option>
+                </select>
+            </div>
             
             <button class="side-btn">Переглянути звіт</button>
         </aside>
@@ -78,13 +79,8 @@
             { id: 'bin-18', fillLevel: 68 }
         ];
         
-        /**
-         * Основна функція оновлення карти та списку пріоритетів
-         */
         function refreshMap() {
             const select = document.getElementById('priority-select');
-            
-            // Очищуємо випадаючий список до початкового стану
             select.innerHTML = '<option value="" disabled selected>Пріоритетні точки</option>';
             let hasPriority = false;
         
@@ -92,44 +88,31 @@
                 const element = document.getElementById(bin.id);
                 if (element) {
                     let statusClass = 'status-empty';
-                    const titleText = element.getAttribute('title'); // Назва з атрибуту title тега div
+                    const titleText = element.getAttribute('title');
         
-                    // Логіка визначення статусів та наповнення списку
                     if (bin.fillLevel === 'none') {
                         statusClass = 'status-problem';
-                        element.title = 'Помилка датчика';
                         addOption(bin.id, `⚪ ${titleText}`);
                         hasPriority = true;
                     } 
                     else if (bin.fillLevel > 80) {
                         statusClass = 'status-full';
-                        element.title = `Заповненість: ${bin.fillLevel}%`;
                         addOption(bin.id, `🔴 ${titleText}`);
                         hasPriority = true;
                     } 
                     else if (bin.fillLevel > 40) {
                         statusClass = 'status-medium';
-                        element.title = `Заповненість: ${bin.fillLevel}%`;
-                    } else {
-                        element.title = `Заповненість: ${bin.fillLevel}%`;
                     }
-        
-                    // Оновлюємо клас точки (колір)
                     element.className = 'dot ' + statusClass;
+                    element.title = bin.fillLevel === 'none' ? 'Помилка датчика' : `Заповненість: ${bin.fillLevel}%`;
                 }
             });
         
-            // Якщо проблемних точок немає
             if (!hasPriority) {
                 addOption("", "✅ Усі станції в нормі");
             }
         }
         
-        /**
-         * Додає новий рядок у спадний список
-         * @param {string} id - ID елемента на карті
-         * @param {string} text - Текст для відображення (значок + назва)
-         */
         function addOption(id, text) {
             const select = document.getElementById('priority-select');
             const opt = document.createElement('option');
@@ -138,25 +121,14 @@
             select.appendChild(opt);
         }
         
-        /**
-         * Спрацьовує при виборі станції у списку.
-         * Просто фокусує карту на точці без візуальних ефектів.
-         */
         function focusOnBin(binId) {
             if (!binId) return;
-            
             const element = document.getElementById(binId);
             if (element) {
-                // Плавна прокрутка до обраної точки
-                element.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center', 
-                    inline: 'center' 
-                });
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
         
-        // Запуск ініціалізації при завантаженні сторінки
         window.onload = refreshMap;
     </script>
 
