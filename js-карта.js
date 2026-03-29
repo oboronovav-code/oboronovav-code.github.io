@@ -80,7 +80,7 @@
         function showPopup(event, binId) {
             const popup = document.getElementById('info-popup');
             const binData = trashBinsData.find(b => b.id === binId);
-            const element = document.getElementById(binId);
+            const element = document.getElementById(binId); // Сама точка
             const title = element.getAttribute('title');
         
             if (!binData) return;
@@ -96,10 +96,12 @@
             
             document.getElementById('popup-status').innerText = `Статус: ${statusText}`;
         
-            // Позиціонуємо вікно поруч із курсором або точкою
+            // ПОМИЛКА БУЛА ТУТ: Позиціюємо відносно точки на карті
             popup.style.display = 'block';
-            popup.style.left = (event.pageX - 100) + 'px'; // Центруємо відносно кліку
-            popup.style.top = (event.pageY - 160) + 'px'; // Трохи вище точки
+            
+            // Беремо координати точки і трохи зміщуємо вікно (наприклад, на 180px вгору)
+            popup.style.left = element.offsetLeft - 90 + 'px'; 
+            popup.style.top = element.offsetTop - 180 + 'px'; 
         }
         
         function closePopup() {
