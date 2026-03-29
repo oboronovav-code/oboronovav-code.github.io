@@ -22,6 +22,14 @@
     <div class="map-page-wrapper">
         <aside class="map-sidebar">
             <button class="side-btn">Список пріоритетних точок</button>
+            <aside class="map-sidebar">
+                <div class="dropdown-container">
+                    <button class="side-btn" onclick="togglePriorityList()">Список пріоритетних точок ▾</button>
+                    <div id="priority-list" class="priority-dropdown-content">
+                        </div>
+                </div>
+                <button class="side-btn">Переглянути звіт</button>
+            </aside>
             <button class="side-btn">Переглянути звіт</button>
         </aside>
 
@@ -52,53 +60,82 @@
     </div>
 
     <script>
-        // Імітація даних з БД (наприклад, рівень заповненості у %)
         const trashBinsData = [
-            { id: 'bin-1', fillLevel: 10 }, // Мало -> зелений
-            { id: 'bin-2', fillLevel: 85 }, // Багато -> червоний
+            { id: 'bin-1', fillLevel: 10 },
+            { id: 'bin-2', fillLevel: 85 },
             { id: 'bin-3', fillLevel: 50 },
-            { id: 'bin-4', fillLevel: 0 }, // Мало -> зелений
-            { id: 'bin-5', fillLevel: 15 }, // Багато -> червоний
+            { id: 'bin-4', fillLevel: 0 },
+            { id: 'bin-5', fillLevel: 15 },
             { id: 'bin-6', fillLevel: 90 },
-            { id: 'bin-7', fillLevel: 63 }, // Мало -> зелений
-            { id: 'bin-8', fillLevel: 74 }, // Багато -> червоний
+            { id: 'bin-7', fillLevel: 63 },
+            { id: 'bin-8', fillLevel: 74 },
             { id: 'bin-9', fillLevel: 5 },
-            { id: 'bin-10', fillLevel: 50 }, // Мало -> зелений
-            { id: 'bin-11', fillLevel: 'none' }, // Багато -> червоний
+            { id: 'bin-10', fillLevel: 50 },
+            { id: 'bin-11', fillLevel: 'none' },
             { id: 'bin-12', fillLevel: 2 },
-            { id: 'bin-13', fillLevel: 55 }, // Мало -> зелений
-            { id: 'bin-14', fillLevel: 60 }, // Багато -> червоний
+            { id: 'bin-13', fillLevel: 55 },
+            { id: 'bin-14', fillLevel: 60 },
             { id: 'bin-15', fillLevel: 10 },
-            { id: 'bin-16', fillLevel: 20 }, // Мало -> зелений
-            { id: 'bin-17', fillLevel: 50 }, // Багато -> червоний
-            { id: 'bin-18', fillLevel: 68 }  // Середньо -> жовтий
+            { id: 'bin-16', fillLevel: 20 },
+            { id: 'bin-17', fillLevel: 50 },
+            { id: 'bin-18', fillLevel: 68 }
         ];
-
+        
         function refreshMap() {
+            const priorityContainer = document.getElementById('priority-list');
+            priorityContainer.innerHTML = ''; // Очищуємо список перед оновленням
+            let priorityCount = 0;
+        
             trashBinsData.forEach(bin => {
                 const element = document.getElementById(bin.id);
                 if (element) {
-                    // Визначаємо клас кольору залежно від рівня
                     let statusClass = 'status-empty';
+                    let titleText = element.getAttribute('title'); // Беремо назву з HTML (title)
+                    let isPriority = false;
+        
                     if (bin.fillLevel === 'none') {
                         statusClass = 'status-problem';
-                        titleText = 'Помилка датчика';
+                        element.title = `Помилка датчика`;
+                        addPriorityItem(titleText, 'Помилка', 'problem');
+                        isPriority = true;
                     } 
                     else if (bin.fillLevel > 80) {
                         statusClass = 'status-full';
+                        element.title = `Критично: ${bin.fillLevel}%`;
+                        addPriorityItem(titleText, `${bin.fillLevel}%`, 'critical');
+                        isPriority = true;
                     } 
                     else if (bin.fillLevel > 40) {
                         statusClass = 'status-medium';
+                        element.title = `Заповненість: ${bin.fillLevel}%`;
+                    } else {
+                        element.title = `Заповненість: ${bin.fillLevel}%`;
                     }
-
-                    // Оновлюємо елемент
+        
                     element.className = 'dot ' + statusClass;
-                    element.title = `Заповненість: ${bin.fillLevel}%`;
+                    if (isPriority) priorityCount++;
                 }
             });
+        
+            if (priorityCount === 0) {
+                priorityContainer.innerHTML = '<div class="no-priority">Всі баки в нормі</div>';
+            }
         }
-
-        // Запускаємо при завантаженні
+        
+        // Функція для створення елемента в списку
+        function addPriorityItem(name, status, type) {
+            const container = document.getElementById('priority-list');
+            const div = document.createElement('div');
+            div.className = `priority-item ${type}`;
+            div.innerHTML = `<strong>${name}</strong><br><small>Статус: ${status}</small>`;
+            container.appendChild(div);
+        }
+        
+        // Функція відкриття/закриття списку
+        function togglePriorityList() {
+            document.getElementById('priority-list').classList.toggle('show');
+        }
+        
         window.onload = refreshMap;
     </script>
 
