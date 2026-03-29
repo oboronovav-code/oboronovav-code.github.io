@@ -19,7 +19,7 @@ def login():
         
         # Перевіряємо тільки логін та пароль
         # Якщо запис знайдено — значить це адмін
-        query = "SELECT * FROM users WHERE username = ? AND password = ?"
+        query = "SELECT * FROM database1 WHERE username = ? AND password_hash = ?"
         cursor.execute(query, (username, password))
         user = cursor.fetchone()
         conn.close()
