@@ -33,7 +33,8 @@ def login():
             return jsonify({"success": False, "message": "Доступ заборонено: невірні дані"}), 401
             
     except Exception as e:
-        return jsonify({"success": False, "message": "Помилка БД: " + str(e)}), 500
+        print(f"Помилка бази даних: {e}") # Це виведе помилку в термінал Python
+        return jsonify({"success": False, "message": f"Помилка сервера: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
