@@ -19,93 +19,93 @@
             { id: 'bin-18', fillLevel: 68 }
         ];
         
-        function toggleDropdown() {
+function toggleDropdown() {
             document.getElementById('priority-dropdown').classList.toggle('active');
-        }
+}
         
-        function refreshMap() {
-            const listContainer = document.getElementById('priority-list');
-            listContainer.innerHTML = ''; // Очищуємо список
-            let hasPriority = false;
-        
-            trashBinsData.forEach(bin => {
-                const element = document.getElementById(bin.id);
-                if (element) {
-                    let statusClass = 'status-empty';
-                    const titleText = element.getAttribute('title');
-                    let icon = '';
-        
-                    if (bin.fillLevel === 'none') {
-                        statusClass = 'status-problem';
-                        icon = '⚪';
-                        addListItem(bin.id, icon, titleText);
-                        hasPriority = true;
-                    } 
-                    else if (bin.fillLevel > 80) {
-                        statusClass = 'status-full';
-                        icon = '🔴';
-                        addListItem(bin.id, icon, titleText);
-                        hasPriority = true;
-                    } 
-                    else if (bin.fillLevel > 40) {
-                        statusClass = 'status-medium';
-                    }
-        
-                    element.className = 'dot ' + statusClass;
-                    element.onclick = (event) => showPopup(event, bin.id);
-                }
-            });
+function refreshMap() {
+    const listContainer = document.getElementById('priority-list');
+    listContainer.innerHTML = ''; // Очищуємо список
+    let hasPriority = false;
 
+    trashBinsData.forEach(bin => {
+        const element = document.getElementById(bin.id);
+        if (element) {
+            let statusClass = 'status-empty';
+            const titleText = element.getAttribute('title');
+            let icon = '';
+
+            if (bin.fillLevel === 'none') {
+                statusClass = 'status-problem';
+                icon = '⚪';
+                addListItem(bin.id, icon, titleText);
+                hasPriority = true;
+            } 
+            else if (bin.fillLevel > 80) {
+                statusClass = 'status-full';
+                icon = '🔴';
+                addListItem(bin.id, icon, titleText);
+                hasPriority = true;
+            } 
+            else if (bin.fillLevel > 40) {
+                statusClass = 'status-medium';
+            }
+
+            element.className = 'dot ' + statusClass;
+            element.onclick = (event) => showPopup(event, bin.id);
         }
-        
-        // Функція створення елемента списку
-        function addListItem(id, icon, text) {
-            const container = document.getElementById('priority-list');
-            const item = document.createElement('div');
-            item.className = 'dropdown-item';
-            item.innerHTML = `<span>${icon}</span> <span>${text}</span>`;
-            
-            // При кліку на пункт — фокусуємо карту
-            item.onclick = () => {
-                const dot = document.getElementById(id);
-                if (dot) {
-                    dot.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Можна додати закриття списку після вибору:
-                    // toggleDropdown(); 
-                }
-            };
-            
-            container.appendChild(item);
+    });
+
+}
+
+// Функція створення елемента списку
+function addListItem(id, icon, text) {
+    const container = document.getElementById('priority-list');
+    const item = document.createElement('div');
+    item.className = 'dropdown-item';
+    item.innerHTML = `<span>${icon}</span> <span>${text}</span>`;
+    
+    // При кліку на пункт — фокусуємо карту
+    item.onclick = () => {
+        const dot = document.getElementById(id);
+        if (dot) {
+            dot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Можна додати закриття списку після вибору:
+            // toggleDropdown(); 
         }
-        function showPopup(event, binId) {
-            const popup = document.getElementById('info-popup');
-            const binData = trashBinsData.find(b => b.id === binId);
-            const element = document.getElementById(binId); // Сама точка
-            const title = element.getAttribute('title');
+    };
+    
+    container.appendChild(item);
+}
+
+        // Функція для показу вікна
+function showPopup(event, binId) {
+    const popup = document.getElementById('info-popup');
+    const binData = trashBinsData.find(b => b.id === binId);
+    const element = document.getElementById(binId);
+    const title = element.getAttribute('title');
+
+    if (!binData) return;
+
+    // Заповнюємо дані
+    document.getElementById('popup-title').innerText = title;
+    document.getElementById('popup-fill').innerText = `Заповненість: ${binData.fillLevel === 'none' ? '—' : binData.fillLevel + '%'}`;
+    
+    let statusText = "Норма";
+    if (binData.fillLevel === 'none') statusText = "Помилка датчика";
+    else if (binData.fillLevel > 80) statusText = "Критично (Повний)";
+    else if (binData.fillLevel > 40) statusText = "Середній рівень";
+    
+    document.getElementById('popup-status').innerText = `Статус: ${statusText}`;
+
+    // Позиціонуємо вікно поруч із курсором або точкою
+    popup.style.display = 'block';
+    popup.style.left = (event.pageX - 100) + 'px'; // Центруємо відносно кліку
+    popup.style.top = (event.pageY - 160) + 'px'; // Трохи вище точки
+}
         
-            if (!binData) return;
-        
-            // Заповнюємо дані
-            document.getElementById('popup-title').innerText = title;
-            document.getElementById('popup-fill').innerText = `Заповненість: ${binData.fillLevel === 'none' ? '—' : binData.fillLevel + '%'}`;
-            
-            let statusText = "Норма";
-            if (binData.fillLevel === 'none') statusText = "Помилка датчика";
-            else if (binData.fillLevel > 80) statusText = "Критично (Повний)";
-            else if (binData.fillLevel > 40) statusText = "Середній рівень";
-            
-            document.getElementById('popup-status').innerText = `Статус: ${statusText}`;
-        
-            // ПОМИЛКА БУЛА ТУТ: Позиціюємо відносно точки на карті
-            popup.style.display = 'block';
-            
-            // Беремо координати точки і трохи зміщуємо вікно (наприклад, на 180px вгору)
-            popup.style.left = element.offsetLeft - 90 + 'px'; 
-            popup.style.top = element.offsetTop - 180 + 'px'; 
-        }
-        
-        function closePopup() {
-            document.getElementById('info-popup').style.display = 'none';
-        }
-        
-        window.onload = refreshMap;
+function closePopup() {
+    document.getElementById('info-popup').style.display = 'none';
+}
+
+window.onload = refreshMap;
