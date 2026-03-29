@@ -21,15 +21,11 @@
 
     <div class="map-page-wrapper">
         <aside class="map-sidebar">
-            <button class="side-btn">Список пріоритетних точок</button>
-            <aside class="map-sidebar">
-                <div class="dropdown-container">
-                    <button class="side-btn" onclick="togglePriorityList()">Список пріоритетних точок ▾</button>
-                    <div id="priority-list" class="priority-dropdown-content">
-                        </div>
-                </div>
-                <button class="side-btn">Переглянути звіт</button>
-            </aside>
+            <select id="priority-select" class="side-btn" onchange="focusOnBin(this.value)">
+                <option value="" disabled selected>Пріоритетні точки</option>
+                <option value="all">Усі точки в нормі</option>
+            </select>
+            
             <button class="side-btn">Переглянути звіт</button>
         </aside>
 
@@ -60,50 +56,56 @@
     </div>
 
     <script>
+        // Дані про станції (імітація бази даних)
         const trashBinsData = [
-            { id: 'bin-1', fillLevel: 10 },
-            { id: 'bin-2', fillLevel: 85 },
+            { id: 'bin-1', fillLevel: 10 }, 
+            { id: 'bin-2', fillLevel: 85 }, 
             { id: 'bin-3', fillLevel: 50 },
-            { id: 'bin-4', fillLevel: 0 },
-            { id: 'bin-5', fillLevel: 15 },
+            { id: 'bin-4', fillLevel: 0 }, 
+            { id: 'bin-5', fillLevel: 15 }, 
             { id: 'bin-6', fillLevel: 90 },
-            { id: 'bin-7', fillLevel: 63 },
-            { id: 'bin-8', fillLevel: 74 },
+            { id: 'bin-7', fillLevel: 63 }, 
+            { id: 'bin-8', fillLevel: 74 }, 
             { id: 'bin-9', fillLevel: 5 },
-            { id: 'bin-10', fillLevel: 50 },
-            { id: 'bin-11', fillLevel: 'none' },
+            { id: 'bin-10', fillLevel: 50 }, 
+            { id: 'bin-11', fillLevel: 'none' }, 
             { id: 'bin-12', fillLevel: 2 },
-            { id: 'bin-13', fillLevel: 55 },
-            { id: 'bin-14', fillLevel: 60 },
+            { id: 'bin-13', fillLevel: 55 }, 
+            { id: 'bin-14', fillLevel: 60 }, 
             { id: 'bin-15', fillLevel: 10 },
-            { id: 'bin-16', fillLevel: 20 },
-            { id: 'bin-17', fillLevel: 50 },
+            { id: 'bin-16', fillLevel: 20 }, 
+            { id: 'bin-17', fillLevel: 50 }, 
             { id: 'bin-18', fillLevel: 68 }
         ];
         
+        /**
+         * Основна функція оновлення карти та списку пріоритетів
+         */
         function refreshMap() {
-            const priorityContainer = document.getElementById('priority-list');
-            priorityContainer.innerHTML = ''; // Очищуємо список перед оновленням
-            let priorityCount = 0;
+            const select = document.getElementById('priority-select');
+            
+            // Очищуємо випадаючий список до початкового стану
+            select.innerHTML = '<option value="" disabled selected>Пріоритетні точки</option>';
+            let hasPriority = false;
         
             trashBinsData.forEach(bin => {
                 const element = document.getElementById(bin.id);
                 if (element) {
                     let statusClass = 'status-empty';
-                    let titleText = element.getAttribute('title'); // Беремо назву з HTML (title)
-                    let isPriority = false;
+                    const titleText = element.getAttribute('title'); // Назва з атрибуту title тега div
         
+                    // Логіка визначення статусів та наповнення списку
                     if (bin.fillLevel === 'none') {
                         statusClass = 'status-problem';
-                        element.title = `Помилка датчика`;
-                        addPriorityItem(titleText, 'Помилка', 'problem');
-                        isPriority = true;
+                        element.title = 'Помилка датчика';
+                        addOption(bin.id, `⚪ ${titleText}`);
+                        hasPriority = true;
                     } 
                     else if (bin.fillLevel > 80) {
                         statusClass = 'status-full';
-                        element.title = `Критично: ${bin.fillLevel}%`;
-                        addPriorityItem(titleText, `${bin.fillLevel}%`, 'critical');
-                        isPriority = true;
+                        element.title = `Заповненість: ${bin.fillLevel}%`;
+                        addOption(bin.id, `🔴 ${titleText}`);
+                        hasPriority = true;
                     } 
                     else if (bin.fillLevel > 40) {
                         statusClass = 'status-medium';
@@ -112,30 +114,49 @@
                         element.title = `Заповненість: ${bin.fillLevel}%`;
                     }
         
+                    // Оновлюємо клас точки (колір)
                     element.className = 'dot ' + statusClass;
-                    if (isPriority) priorityCount++;
                 }
             });
         
-            if (priorityCount === 0) {
-                priorityContainer.innerHTML = '<div class="no-priority">Всі баки в нормі</div>';
+            // Якщо проблемних точок немає
+            if (!hasPriority) {
+                addOption("", "✅ Усі станції в нормі");
             }
         }
         
-        // Функція для створення елемента в списку
-        function addPriorityItem(name, status, type) {
-            const container = document.getElementById('priority-list');
-            const div = document.createElement('div');
-            div.className = `priority-item ${type}`;
-            div.innerHTML = `<strong>${name}</strong><br><small>Статус: ${status}</small>`;
-            container.appendChild(div);
+        /**
+         * Додає новий рядок у спадний список
+         * @param {string} id - ID елемента на карті
+         * @param {string} text - Текст для відображення (значок + назва)
+         */
+        function addOption(id, text) {
+            const select = document.getElementById('priority-select');
+            const opt = document.createElement('option');
+            opt.value = id;
+            opt.text = text;
+            select.appendChild(opt);
         }
         
-        // Функція відкриття/закриття списку
-        function togglePriorityList() {
-            document.getElementById('priority-list').classList.toggle('show');
+        /**
+         * Спрацьовує при виборі станції у списку.
+         * Просто фокусує карту на точці без візуальних ефектів.
+         */
+        function focusOnBin(binId) {
+            if (!binId) return;
+            
+            const element = document.getElementById(binId);
+            if (element) {
+                // Плавна прокрутка до обраної точки
+                element.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center', 
+                    inline: 'center' 
+                });
+            }
         }
         
+        // Запуск ініціалізації при завантаженні сторінки
         window.onload = refreshMap;
     </script>
 
