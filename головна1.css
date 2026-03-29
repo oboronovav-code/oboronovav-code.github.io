@@ -357,28 +357,39 @@ body {
             .map-sidebar { width: 100%; box-sizing: border-box; }
         }*/
 
-/* Стилізація спадного списку в сайдбарі */
-select.side-btn {
-    appearance: none; /* Прибираємо стандартний вигляд системного селектора */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    
-    /* Додаємо власну стрілочку праворуч */
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235d4037' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 35px; /* Місце для стрілочки */
-    
+/* Контейнер для списку з відступом */
+.priority-wrapper {
+    margin-bottom: 15px; /* Відступ від кнопки "Переглянути звіт" */
     width: 100%;
-    cursor: pointer;
-    outline: none;
-    font-family: inherit;
 }
 
-/* Стилізація варіантів (option) всередині списку */
-select.side-btn option {
-    background-color: #fff;
-    color: #333;
-    padding: 10px;
-    font-size: 14px;
+/* Стилізація самого випадаючого списку */
+select.priority-select {
+    width: 100%;
+    border: none;               /* Прибираємо видимі межі */
+    border-radius: 12px;        /* Заокруглюємо кути */
+    background-color: #ffffff;  /* Білий фон для контрасту */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* М'яка тінь */
+    padding: 12px 15px;
+    font-size: 13px;
+    color: #5d4037;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238d6e63' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    transition: all 0.3s ease;  /* Плавний ефект при взаємодії */
+}
+
+/* Ефект при фокусі (коли список відкритий) */
+select.priority-select:focus {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fffaf9;
+}
+
+/* Стилізація кнопок у сайдбарі для однаковості */
+.side-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 15px;
+    transition: 0.3s;
 }
