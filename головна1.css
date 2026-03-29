@@ -357,39 +357,65 @@ body {
             .map-sidebar { width: 100%; box-sizing: border-box; }
         }*/
 
-/* Контейнер для списку з відступом */
-.priority-wrapper {
-    margin-bottom: 15px; /* Відступ від кнопки "Переглянути звіт" */
+/* 1. Контейнер для кастомного списку */
+.custom-dropdown {
     width: 100%;
-}
-
-/* Стилізація самого випадаючого списку */
-select.priority-select {
-    width: 100%;
-    border: none;               /* Прибираємо видимі межі */
-    border-radius: 12px;        /* Заокруглюємо кути */
-    background-color: #ffffff;  /* Білий фон для контрасту */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* М'яка тінь */
-    padding: 12px 15px;
-    font-size: 13px;
-    color: #5d4037;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238d6e63' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    transition: all 0.3s ease;  /* Плавний ефект при взаємодії */
-}
-
-/* Ефект при фокусі (коли список відкритий) */
-select.priority-select:focus {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    background-color: #fffaf9;
-}
-
-/* Стилізація кнопок у сайдбарі для однаковості */
-.side-btn {
-    border: none;
+    background-color: #ffffff;
     border-radius: 12px;
+    overflow: hidden; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px; /* Відступ, який штовхає кнопку "Звіт" */
+    transition: all 0.3s ease;
+}
+
+/* 2. Шапка списку (замість кнопки) */
+.dropdown-header {
     padding: 12px 15px;
-    transition: 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    color: #5d4037;
+    background-color: #e8dede; /* Твій колір кнопок */
+    transition: background 0.3s;
+}
+
+.dropdown-header:hover {
+    background-color: #d8cdcd;
+}
+
+/* 3. Список, який з'являється всередині панелі */
+.dropdown-list {
+    display: none; /* Сховано, поки не натиснули */
+    max-height: 250px;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+}
+
+/* 4. Клас, який активується через JS при кліку */
+.custom-dropdown.active .dropdown-list {
+    display: block; /* Тепер список розгортається і розсуває панель */
+}
+
+/* 5. Стиль кожного пункту (станції) */
+.dropdown-item {
+    padding: 10px 15px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #fafafa;
+    color: #5d4037;
+}
+
+.dropdown-item:hover {
+    background-color: #fff5f2;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
 }
