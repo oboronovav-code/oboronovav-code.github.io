@@ -1,7 +1,7 @@
  const trashBinsData = [
             { id: 'bin-1', fillLevel: 10 }, 
             { id: 'bin-2', fillLevel: 85 }, 
-            { id: 'bin-3', fillLevel: 50 },
+            { id: 'bin-3', fillLevel: 25 },
             { id: 'bin-4', fillLevel: 0 }, 
             { id: 'bin-5', fillLevel: 15 }, 
             { id: 'bin-6', fillLevel: 90 },
