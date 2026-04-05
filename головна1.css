@@ -332,10 +332,10 @@ body {
         .status-full { background-color: #e74c3c; }
         .status-problem { background-color: #D3D3D3; }   /* Червоний */
 
-        /*@media (max-width: 800px) {
+        @media (max-width: 800px) {
             .map-page-wrapper { flex-direction: column; }
             .map-sidebar { width: 100%; box-sizing: border-box; }
-        }*/
+        }
 
 /* 1. Контейнер для кастомного списку */
 .custom-dropdown {
