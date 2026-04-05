@@ -127,6 +127,46 @@ function applyPermissions() {
     }
 }
 
+// Функція для відкриття/закриття форми
+function toggleReportForm() {
+    const form = document.getElementById('report-form-container');
+    if (form.style.display === 'block') {
+        form.style.display = 'none';
+    } else {
+        form.style.display = 'block';
+    }
+}
+
+// Функція для "збереження" (поки що виводить дані в консоль або алерт)
+function saveReport() {
+    const period = document.getElementById('report-period').value;
+    const station = document.getElementById('report-station').value;
+
+    if (!station) {
+        alert("Будь ласка, введіть назву станції!");
+        return;
+    }
+
+    console.log(`Звіт створено: Період - ${period}, Станція - ${station}`);
+    alert(`Звіт для станції "${station}" (${period}) успішно збережено!`);
+    
+    // Закриваємо форму після збереження
+    document.getElementById('report-form-container').style.display = 'none';
+}
+
+// Закривати форму, якщо клікнули поза нею
+window.onclick = function(event) {
+    if (!event.target.matches('.report-btn')) {
+        const dropdowns = document.getElementsByClassName("report-form-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
+            if (openDropdown.style.display === 'block' && !openDropdown.contains(event.target)) {
+                openDropdown.style.display = 'none';
+            }
+        }
+    }
+}
+
 window.onload = function() {
     refreshMap();       // функція малювання точок
     applyPermissions();  // Перевірка прав доступу
