@@ -30,7 +30,24 @@
                     </div>
             </div>
         
-            <button id="report-btn" class="side-btn report-btn" style="display: none;">Створити звіт</button>
+            <div class="report-dropdown">
+                <button type="button" id="report-btn" class="side-btn report-btn" onclick="toggleReportForm()" style="display: none;">
+                    Створити звіт ▾
+                </button>
+                
+                <div id="report-form-container" class="report-form-content">
+                    <label>Період:</label>
+                    <select id="report-period">
+                        <option value="day">За день</option>
+                        <option value="week">За тиждень</option>
+                    </select>
+            
+                    <label>Станція:</label>
+                    <input type="text" id="report-station" placeholder="Назва станції">
+            
+                    <button type="button" class="save-report-btn" onclick="saveReport()">Зберегти</button>
+                </div>
+            </div>
             <button class="side-btn report-btn">Переглянути звіт</button>
         </aside>
 
