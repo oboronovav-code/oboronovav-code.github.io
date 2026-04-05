@@ -3,7 +3,7 @@ async function handleLogin() {
     const passVal = document.getElementById('password').value;
 
     try {
-        const response = await fetch('https://unstraightforward-intercranial-matilde.ngrok-free.dev', {
+        const response = await fetch('https://unstraightforward-intercranial-matilde.ngrok-free.dev/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: userVal, password: passVal })
