@@ -5,7 +5,10 @@ async function handleLogin() {
     try {
         const response = await fetch('https://unstraightforward-intercranial-matilde.ngrok-free.dev/login', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true' // Обов'язково додай це!
+            },
             body: JSON.stringify({ username: userVal, password: passVal })
         });
 
