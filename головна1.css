@@ -516,3 +516,56 @@ body {
         width: 100%; /* Кнопка на всю ширину */
     }
 }
+/* Контейнер для кнопки та форми */
+.report-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Контейнер самої форми */
+.report-form-content {
+    display: none; /* Сховано за замовчуванням */
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    padding: 15px;
+    z-index: 3000;
+    border-radius: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Стилі для елементів форми */
+.report-form-content label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.report-form-content select, 
+.report-form-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Щоб padding не розширював елемент */
+}
+
+.save-report-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.save-report-btn:hover {
+    background-color: #218838;
+}
