@@ -1,23 +1,45 @@
- const trashBinsData = [
-            { id: 'bin-1', fillLevel: 10 }, 
-            { id: 'bin-2', fillLevel: 85 }, 
-            { id: 'bin-3', fillLevel: 25 },
-            { id: 'bin-4', fillLevel: 0 }, 
-            { id: 'bin-5', fillLevel: 15 }, 
-            { id: 'bin-6', fillLevel: 90 },
-            { id: 'bin-7', fillLevel: 63 }, 
-            { id: 'bin-8', fillLevel: 74 }, 
-            { id: 'bin-9', fillLevel: 5 },
-            { id: 'bin-10', fillLevel: 50 }, 
-            { id: 'bin-11', fillLevel: 'none' }, 
-            { id: 'bin-12', fillLevel: 2 },
-            { id: 'bin-13', fillLevel: 55 }, 
-            { id: 'bin-14', fillLevel: 60 }, 
-            { id: 'bin-15', fillLevel: 10 },
-            { id: 'bin-16', fillLevel: 20 }, 
-            { id: 'bin-17', fillLevel: 50 }, 
-            { id: 'bin-18', fillLevel: 68 }
-        ];
+const map = L.map('map').setView([50.4501, 30.5234], 12);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+const trashBinsData = [
+    // Шевченківський район
+    { id: 'bin-1', district: 'shevchenkivskyi', title: 'Галицька площа', fillLevel: 20, coords: [50.4480, 30.4900] },
+    { id: 'bin-2', district: 'shevchenkivskyi', title: 'Старовокзальна', fillLevel: 50, coords: [50.4450, 30.4850] },
+    { id: 'bin-3', district: 'solomianskyi', title: 'Просп. Академіка Корольова', fillLevel: 10, coords: [50.4200, 30.4000] },
+    { id: 'bin-4', district: 'solomianskyi', title: 'Михайлівська Борщагівка', fillLevel: 85, coords: [50.4100, 30.3900] },
+    { id: 'bin-5', district: 'solomianskyi', title: 'Івана Дзюби', fillLevel: 'none', coords: [50.4300, 30.4200] },
+    { id: 'bin-6', district: 'holosiivskyi', title: 'Голосіївська', fillLevel: 90, coords: [50.3950, 30.5150] },
+    { id: 'bin-7', district: 'holosiivskyi', title: 'Деміївська', fillLevel: 30, coords: [50.4030, 30.5200] },
+    { id: 'bin-8', district: 'pecherskyi', title: 'Палац Спорту', fillLevel: 75, coords: [50.4380, 30.5220] },
+    { id: 'bin-9', district: 'pecherskyi', title: 'Кловська', fillLevel: 15, coords: [50.4390, 30.5330] },
+    { id: 'bin-10', district: 'podilskyi', title: 'Контрактова площа', fillLevel: 88, coords: [50.4630, 30.5160] },
+    { id: 'bin-11', district: 'podilskyi', title: 'Тараса Шевченка', fillLevel: 40, coords: [50.4710, 30.5030] },
+    { id: 'bin-12', district: 'darnytskyi', title: 'Позняки', fillLevel: 60, coords: [50.3960, 30.6270] },
+    { id: 'bin-13', district: 'darnytskyi', title: 'Осокорки', fillLevel: 10, coords: [50.3940, 30.6130] },
+    { id: 'bin-14', district: 'dniprovskyi', title: 'Лівобережна', fillLevel: 95, coords: [50.4490, 30.5930] },
+    { id: 'bin-15', district: 'dniprovskyi', title: 'Гідропарк', fillLevel: 5, coords: [50.4460, 30.5780] },
+    { id: 'bin-16', district: 'desnianskyi', title: 'Керченська площа', fillLevel: 50, coords: [50.4870, 30.6080] },
+    { id: 'bin-17', district: 'obolonskyi', title: 'Оболонь', fillLevel: 30, coords: [50.5010, 30.5010] },
+    { id: 'bin-18', district: 'obolonskyi', title: 'Мінська', fillLevel: 82, coords: [50.5120, 30.5030] },
+    { id: 'bin-19', district: 'sviatoshynskyi', title: 'Святошин', fillLevel: 45, coords: [50.4570, 30.3950] }
+];
+const districtCenters = {
+    'all': { coords: [50.4501, 30.5234], zoom: 12 },
+    'solomianskyi': { coords: [50.4350, 30.4300], zoom: 14 },
+    'shevchenkivskyi': { coords: [50.4550, 30.5100], zoom: 14 }
+};
+
+function filterDistrict(districtKey) {
+    const target = districtCenters[districtKey];
+    if (target) {
+        // Плавне переміщення карти на центр обраного району
+        map.setView(target.coords, target.zoom);
+    }
+}
         
 function toggleDropdown() {
             document.getElementById('priority-dropdown').classList.toggle('active');
