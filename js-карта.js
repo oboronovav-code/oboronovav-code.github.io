@@ -31,6 +31,14 @@ const districtCenters = {
     'all': { coords: [50.4501, 30.5234], zoom: 12 },
     'solomianskyi': { coords: [50.4350, 30.4300], zoom: 14 },
     'shevchenkivskyi': { coords: [50.4550, 30.5100], zoom: 14 }
+    'holosiivskyi': { coords: [50.3850, 30.5050], zoom: 13 },    
+    'pecherskyi': { coords: [50.4280, 30.5370], zoom: 14 },      
+    'podilskyi': { coords: [50.4710, 30.5130], zoom: 14 },       
+    'darnytskyi': { coords: [50.3950, 30.6400], zoom: 13 },     
+    'dniprovskyi': { coords: [50.4570, 30.6030], zoom: 13 },     
+    'desnianskyi': { coords: [50.5130, 30.6120], zoom: 13 },
+    'obolonskyi': { coords: [50.5120, 30.4950], zoom: 13 },      
+    'sviatoshynskyi': { coords: [50.4480, 30.3630], zoom: 13 }
 };
 
 function filterDistrict(districtKey) {
