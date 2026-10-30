@@ -307,12 +307,6 @@ body {
             user-select: none;
         }
 
-        .map-relative-container img {
-            display: block;
-            max-width: 1000px; /* Можна регулювати залежно від розміру фото */
-            height: auto;
-        }
-
         /* Стилі точок (датчиків) */
         .dot {
             position: absolute;
