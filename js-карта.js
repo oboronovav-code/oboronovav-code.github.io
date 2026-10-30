@@ -97,42 +97,6 @@ function addListItem(id, icon, text) {
     
     container.appendChild(item);
 }
-
-        // Функція для показу вікна
-function showPopup(event, binId) {
-    const popup = document.getElementById('info-popup');
-    const binData = trashBinsData.find(b => b.id === binId);
-    const element = document.getElementById(binId);
-    const title = element.getAttribute('title');
-
-    if (!binData) return;
-
-    // Заповнюємо дані у вікні
-    document.getElementById('popup-title').innerText = title;
-    document.getElementById('popup-fill').innerText = `Заповненість: ${binData.fillLevel === 'none' ? '—' : binData.fillLevel + '%'}`;
-    
-    let statusText = "Норма";
-    if (binData.fillLevel === 'none') statusText = "Помилка датчика";
-    else if (binData.fillLevel > 80) statusText = "Критично (Повний)";
-    else if (binData.fillLevel > 40) statusText = "Середній рівень";
-    
-    document.getElementById('popup-status').innerText = `Статус: ${statusText}`;
-
-    popup.style.display = 'block';
-
-    // Базове позиціонування по горизонталі (по центру точки)
-    popup.style.left = element.offsetLeft - 90 + 'px'; 
-
-    // Логіка для позиціонування по вертикалі
-    if (binId === 'bin-16' || binId === 'bin-17') {
-        // Для 16 та 17 станцій з'являється ПІД маркером
-        // Додаємо висоту самого маркера (16px) + невеликий відступ
-        popup.style.top = element.offsetTop + 25 + 'px'; 
-    } else {
-        // Для всіх інших — НАД маркером (як було раніше)
-        popup.style.top = element.offsetTop - 180 + 'px'; 
-    }
-}
         
 function closePopup() {
     document.getElementById('info-popup').style.display = 'none';
