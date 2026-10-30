@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Карта моніторингу - Система IoT</title>
     <link rel="stylesheet" href="головна1.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
 
@@ -21,6 +22,22 @@
 
     <div class="map-page-wrapper">
         <aside class="map-sidebar">
+            <div class="custom-dropdown">
+                <select id="district-select" class="side-btn" onchange="filterDistrict(this.value)">
+                    <option value="all" selected>Увесь Київ (Усі райони)</option>
+                    <option value="solomianskyi">Солом'янський район</option>
+                    <option value="shevchenkivskyi">Шевченківський район</option>
+                    <option value="shevchenkivskyi">Дарницький район</option>
+                    <option value="shevchenkivskyi">Святошинський район</option>
+                    <option value="shevchenkivskyi">Подільський район</option>
+                    <option value="shevchenkivskyi">Печерський район</option>
+                    <option value="shevchenkivskyi">Оболонський район</option>
+                    <option value="shevchenkivskyi">Голосіївський район</option>
+                    <option value="shevchenkivskyi">Деснянський район</option>
+                    <option value="shevchenkivskyi">Дніпровський район</option>
+                </select>
+            </div>
+            
             <div class="custom-dropdown" id="priority-dropdown">
                 <div class="dropdown-header" onclick="toggleDropdown()">
                     <span>Пріоритетні точки</span>
@@ -50,43 +67,12 @@
             </div>
             <button class="side-btn report-btn">Переглянути звіт</button>
         </aside>
-
         <main class="map-display">
-            <div class="map-relative-container">
-                <img src="карта.jpg" alt="Карта Києва">
-
-                <div class="dot" id="bin-1" style="top: 92.6%; left: 21.8%;" title="Просп.Академіка Корольова"></div>
-                <div class="dot" id="bin-2" style="top: 85.4%; left: 21.7%;" title="Михайлівська Боршагівка"></div>
-                <div class="dot" id="bin-3" style="top: 80.8%; left: 21.6%;" title="Вул. Вахтанга Кікабідзе"></div>
-                <div class="dot" id="bin-4" style="top: 76.3%; left: 21.4%;" title="Вул. Олександра Махова"></div>
-                <div class="dot" id="bin-5" style="top: 71.7%; left: 21.2%;" title="Вул. Зодчих"></div>
-                <div class="dot" id="bin-6" style="top: 67%; left: 21%;" title="Бульвар Миколи Руденка"></div>
-                <div class="dot" id="bin-7" style="top: 61.4%; left: 20.82%;" title="Вул. Василя Доманицького"></div>
-                <div class="dot" id="bin-8" style="top: 54.9%; left: 22.56%;" title="Гната Юри"></div>
-                <div class="dot" id="bin-9" style="top: 49.9%; left: 29%;" title="Івана Дзюби"></div>
-                <div class="dot" id="bin-10" style="top: 43.57%; left: 36.07%;" title="Вацлава Гавела"></div>
-                <div class="dot" id="bin-11" style="top: 37.8%; left: 42.9%;" title="Академіка Шалімова"></div>
-                <div class="dot" id="bin-12" style="top: 33.4%; left: 48%;" title="Національний Авіаційний Університет"></div>
-                <div class="dot" id="bin-13" style="top: 29%; left: 53%;" title="Індустріальна"></div>
-                <div class="dot" id="bin-14" style="top: 24.9%; left: 57.8%;" title="Олекси Тихого"></div>
-                <div class="dot" id="bin-15" style="top: 20.13%; left: 63.79%;" title="Політехнічна"></div>
-                <div class="dot" id="bin-16" style="top: 9.48%; left: 75.5%;" title="Галицька площа"></div>
-                <div class="dot" id="bin-17" style="top: 8.38%; left: 81.2%;" title="Старовокзальна"></div>
-                <div class="dot" id="bin-18" style="top: 61.2%; left: 15.6%;" title="Жуля Верна"></div>
-
-                <div id="info-popup" class="info-popup">
-                    <div class="popup-content">
-                        <span class="close-popup" onclick="closePopup()">&times;</span>
-                        <h3 id="popup-title">Назва станції</h3>
-                        <p id="popup-status">Статус: завантаження...</p>
-                        <p id="popup-fill">Заповненість: 0%</p>
-                        <button class="side-btn" style="width: 100%; margin-top: 10px;">Детальніше</button>
-                    </div>
-                </div>
-            </div>
+            <div id="map" style="width: 100%; height: 600px; border-radius: 10px;"></div>
         </main>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="js-карта.js"></script>
 
 </body>
