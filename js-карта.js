@@ -30,7 +30,7 @@ const trashBinsData = [
 const districtCenters = {
     'all': { coords: [50.4501, 30.5234], zoom: 12 },
     'solomianskyi': { coords: [50.4350, 30.4300], zoom: 14 },
-    'shevchenkivskyi': { coords: [50.4550, 30.5100], zoom: 14 }
+    'shevchenkivskyi': { coords: [50.4550, 30.5100], zoom: 14 },
     'holosiivskyi': { coords: [50.3850, 30.5050], zoom: 13 },    
     'pecherskyi': { coords: [50.4280, 30.5370], zoom: 14 },      
     'podilskyi': { coords: [50.4710, 30.5130], zoom: 14 },       
@@ -41,71 +41,70 @@ const districtCenters = {
     'sviatoshynskyi': { coords: [50.4480, 30.3630], zoom: 13 }
 };
 
+const markersMap = {};
+
 function filterDistrict(districtKey) {
     const target = districtCenters[districtKey];
     if (target) {
-        // Плавне переміщення карти на центр обраного району
         map.setView(target.coords, target.zoom);
+        document.getElementById('district-selected-text').innerText = target.name;
+        document.getElementById('district-dropdown').classList.remove('active');
     }
 }
         
-function toggleDropdown() {
-            document.getElementById('priority-dropdown').classList.toggle('active');
+function toggleDropdown(dropdownId) {
+    document.getElementById(dropdownId).classList.toggle('active');
 }
         
 function refreshMap() {
     const listContainer = document.getElementById('priority-list');
-    listContainer.innerHTML = ''; // Очищуємо список
-    let hasPriority = false;
+    if (listContainer) listContainer.innerHTML = '';
 
     trashBinsData.forEach(bin => {
-        const element = document.getElementById(bin.id);
-        if (element) {
-            let statusClass = 'status-empty';
-            const titleText = element.getAttribute('title');
-            let icon = '';
+        if (!markersMap[bin.id]) {
+            let color = '#2ecc71'; 
+            if (bin.fillLevel === 'none') color = '#D3D3D3';
+            else if (bin.fillLevel > 80) color = '#e74c3c';
+            else if (bin.fillLevel > 40) color = '#f1c40f';
 
-            if (bin.fillLevel === 'none') {
-                statusClass = 'status-problem';
-                icon = '⚪';
-                addListItem(bin.id, icon, titleText);
-                hasPriority = true;
-            } 
-            else if (bin.fillLevel > 80) {
-                statusClass = 'status-full';
-                icon = '🔴';
-                addListItem(bin.id, icon, titleText);
-                hasPriority = true;
-            } 
-            else if (bin.fillLevel > 40) {
-                statusClass = 'status-medium';
-            }
+            const marker = L.circleMarker(bin.coords, {
+                radius: 8,
+                fillColor: color,
+                color: '#fff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.9
+            }).addTo(map);
 
-            element.className = 'dot ' + statusClass;
-            element.onclick = (event) => showPopup(event, bin.id);
+            marker.bindPopup(`<b>${bin.title}</b><br>Заповненість: ${bin.fillLevel}%`);
+            markersMap[bin.id] = marker;
+        }
+
+        if (bin.fillLevel === 'none' || bin.fillLevel > 80) {
+            let icon = bin.fillLevel === 'none' ? '⚪' : '🔴';
+            addListItem(bin.id, icon, bin.title);
         }
     });
-
 }
 
-// Функція створення елемента списку
 function addListItem(id, icon, text) {
     const container = document.getElementById('priority-list');
+    if (!container) return;
     const item = document.createElement('div');
     item.className = 'dropdown-item';
     item.innerHTML = `<span>${icon}</span> <span>${text}</span>`;
     
-    // При кліку на пункт — фокусуємо карту
     item.onclick = () => {
-        const dot = document.getElementById(id);
-        if (dot) {
-            dot.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+        const marker = markersMap[id];
+        if (marker) {
+            map.setView(marker.getLatLng(), 16);
+            marker.openPopup();
         }
     };
     
     container.appendChild(item);
 }
-        
+
 function closePopup() {
     document.getElementById('info-popup').style.display = 'none';
 }
