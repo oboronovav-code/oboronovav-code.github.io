@@ -250,8 +250,8 @@ body {
 
 .map-page-wrapper {
             display: flex;
-            min-height: 100vh - 70px; /* Висота без шапки */
-            background-color: rgb(128, 105, 105); /* Твій колір фону з CSS */
+            min-height: 100vh; /* Висота без шапки */
+            background-color: rgb(200, 188, 188); /* Твій колір фону з CSS */
         }
 
         /* Ліва панель з Figma */
