@@ -250,8 +250,8 @@ body {
 
 .map-page-wrapper {
             display: flex;
-            min-height: calc(100vh - 70px); /* Висота без шапки */
-            background-color: rgb(200, 188, 188); /* Твій колір фону з CSS */
+            min-height: 100vh; /* Висота без шапки */
+            background-color: rgb(128, 105, 105); /* Твій колір фону з CSS */
         }
 
         /* Ліва панель з Figma */
@@ -263,6 +263,9 @@ body {
             flex-direction: column;
             gap: 15px;
             border-right: 1px solid #ddd;
+            position: relative; 
+            height: auto;
+            min-height: 100vh;
         }
 
         .side-btn {
