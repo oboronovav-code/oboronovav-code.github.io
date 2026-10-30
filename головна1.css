@@ -266,7 +266,6 @@ body {
             position: relative; 
             height: auto;
             min-height: 100vh;
-            box-sizing: border-box;
         }
 
         .side-btn {
